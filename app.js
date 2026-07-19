@@ -1,3 +1,4 @@
+const slide = document.getElementById("slide");
 const viewer = document.getElementById("viewer");
 const fadeMask = document.getElementById("fadeMask");
 
@@ -6,57 +7,84 @@ let order = [];
 let index = 0;
 let playing = true;
 
-// ゴミ箱禁止フィルタ
-function isTrash(path) {
-  return (
-    path.includes("Trash") ||
-    path.includes("Recently Deleted") ||
-    path.includes(".Trash") ||
-    path.includes(".Recycle") ||
-    path.includes("RecycleBin") ||
-    path.includes("Deleted") ||
-    path.includes(".thumbnails")
-  );
-}
+// フォルダ選択
+folderInput.addEventListener("change", (e) => {
+  files = [...e.target.files].filter(f => f.type.startsWith("image/") || f.type.startsWith("video/"));
 
-// みてね風クロスフェード
+  console.log("=== フォルダ選択結果 ===");
+  console.log("総ファイル数:", e.target.files.length);
+  console.log("画像/動画ファイル数:", files.length);
+
+  order = [...files.keys()];
+  order.sort(() => Math.random() - 0.5);
+
+  index = 0;
+});
+
+// 再生開始
+startBtn.addEventListener("click", () => {
+  if (files.length === 0) {
+    alert("フォルダ内に画像や動画がありません");
+    return;
+  }
+
+  ui.style.display = "none";
+  viewer.style.display = "block";
+  help.style.display = "block";
+
+  showFile();
+});
+
+// クロスフェード
 function crossFade(nextURL) {
-  fadeMask.style.opacity = 0.1; // ほんの少し暗転
-  viewer.style.opacity = 0;
+  fadeMask.style.opacity = 0.1;
+  slide.style.opacity = 0;
 
   setTimeout(() => {
-    viewer.src = nextURL;
-    viewer.style.opacity = 1;
+    slide.src = nextURL;
+    slide.style.opacity = 1;
     fadeMask.style.opacity = 0;
   }, 200);
 }
 
-// 画像・動画対応の読み込み
+// 表示処理（画像・動画対応）
 function showFile() {
   const file = files[order[index]];
   const url = URL.createObjectURL(file);
 
+  // 動画
   if (file.type.startsWith("video")) {
-    viewer.src = "";
-    viewer.style.opacity = 0;
-
     const video = document.createElement("video");
     video.src = url;
     video.autoplay = true;
     video.loop = true;
     video.muted = true;
+    video.id = "slide";
+    video.style.width = "100vw";
+    video.style.height = "100vh";
+    video.style.objectFit = "contain";
 
-    viewer.replaceWith(video);
-    video.id = "viewer";
-    viewer = video;
+    slide.replaceWith(video);
+    slide = video;
 
     fadeMask.style.opacity = 0.1;
     setTimeout(() => {
       fadeMask.style.opacity = 0;
-      viewer.style.opacity = 1;
+      slide.style.opacity = 1;
     }, 200);
 
   } else {
+    // 画像
+    if (slide.tagName !== "IMG") {
+      const newImg = document.createElement("img");
+      newImg.id = "slide";
+      newImg.style.width = "100vw";
+      newImg.style.height = "100vh";
+      newImg.style.objectFit = "contain";
+      slide.replaceWith(newImg);
+      slide = newImg;
+    }
+
     const img = new Image();
     img.onload = () => crossFade(url);
     img.src = url;
@@ -74,41 +102,7 @@ function next() {
   showFile();
 }
 
-// 15秒ゆったりスライドショー
+// 15秒ごとに次へ
 setInterval(() => {
   if (playing) next();
 }, 15000);
-
-folderInput.addEventListener("change", (e) => {
-  files = [...e.target.files].filter(f => f.type.startsWith("image/"));
-
-  console.log("=== フォルダ選択結果 ===");
-  console.log("総ファイル数:", e.target.files.length);
-  console.log("画像ファイル数:", files.length);
-});
-
-startBtn.addEventListener("click", () => {
-  if (files.length === 0) {
-    alert("フォルダ内に画像がありません");
-    return;
-  }
-
-  ui.style.display = "none";
-  viewer.style.display = "block";
-  help.style.display = "block";
-
-  showFile();
-});
-
-startBtn.addEventListener("click", () => {
-  if (files.length === 0) {
-    alert("フォルダ内に画像がありません");
-    return;
-  }
-
-  ui.style.display = "none";
-  viewer.style.display = "block";
-  help.style.display = "block";
-
-  showFile();
-});
