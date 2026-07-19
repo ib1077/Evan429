@@ -1,4 +1,3 @@
-const picker = document.getElementById("picker");
 const viewer = document.getElementById("viewer");
 const fadeMask = document.getElementById("fadeMask");
 
@@ -19,17 +18,6 @@ function isTrash(path) {
     path.includes(".thumbnails")
   );
 }
-
-// フォルダ読み込み
-picker.onchange = () => {
-  files = [...picker.files].filter(f => !isTrash(f.webkitRelativePath));
-
-  order = [...files.keys()];
-  order.sort(() => Math.random() - 0.5);
-
-  index = 0;
-  showFile();
-};
 
 // みてね風クロスフェード
 function crossFade(nextURL) {
@@ -94,9 +82,20 @@ setInterval(() => {
 folderInput.addEventListener("change", (e) => {
   files = [...e.target.files].filter(f => f.type.startsWith("image/"));
 
+  console.log("=== フォルダ選択結果 ===");
+  console.log("総ファイル数:", e.target.files.length);
+  console.log("画像ファイル数:", files.length);
+});
+
+startBtn.addEventListener("click", () => {
   if (files.length === 0) {
-    alert("フォルダ内の画像を取得できませんでした。別のフォルダ選択方法を試します。");
+    alert("フォルダ内に画像がありません");
+    return;
   }
 
-  console.log("読み込んだ画像枚数:", files.length);
+  ui.style.display = "none";
+  viewer.style.display = "block";
+  help.style.display = "block";
+
+  showFile();
 });
