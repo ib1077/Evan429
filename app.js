@@ -99,3 +99,16 @@ startBtn.addEventListener("click", () => {
 
   showFile();
 });
+
+startBtn.addEventListener("click", () => {
+  if (files.length === 0) {
+    alert("フォルダ内に画像がありません");
+    return;
+  }
+
+  ui.style.display = "none";
+  viewer.style.display = "block";
+  help.style.display = "block";
+
+  showFile();
+});
