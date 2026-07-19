@@ -38,7 +38,6 @@
       margin-top: 1rem;
     }
 
-    /* 初期画面では説明を非表示 */
     #help {
       display: none;
       font-size: 1.4rem;
@@ -64,32 +63,46 @@
   <div id="ui">
     <h1>みる</h1>
 
-    <!-- フォルダ選択 -->
     <input id="folderInput" type="file" webkitdirectory directory allowdirs>
 
-    <!-- 再生開始 -->
     <button id="startBtn">再生開始</button>
 
-    <!-- スワイプ説明（初期画面では非表示） -->
     <div id="help">スワイプで次へ進みます</div>
   </div>
 
-  <!-- スライドショー表示領域 -->
   <div id="viewer">
     <img id="slide">
   </div>
 
+  <!-- フェード用マスク -->
   <div id="fadeMask" style="
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: black;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s;
-"></div>
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: black;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+  "></div>
+
+  <!-- 操作バー -->
+  <div id="controls" style="
+    position: fixed;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+    font-size: 2rem;
+    color: white;
+    background: rgba(0,0,0,0.5);
+    z-index: 9999;
+  ">
+    <span id="prev">⇦</span>
+    <span id="pause">⏸</span>
+    <span id="nextBtn">⇨</span>
+    <span id="restart">↺もどる</span>
+  </div>
 
   <script src="app.js"></script>
 </body>
