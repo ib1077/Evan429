@@ -90,3 +90,13 @@ function next() {
 setInterval(() => {
   if (playing) next();
 }, 15000);
+
+folderInput.addEventListener("change", (e) => {
+  files = [...e.target.files].filter(f => f.type.startsWith("image/"));
+
+  if (files.length === 0) {
+    alert("フォルダ内の画像を取得できませんでした。別のフォルダ選択方法を試します。");
+  }
+
+  console.log("読み込んだ画像枚数:", files.length);
+});
