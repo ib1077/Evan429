@@ -2,21 +2,20 @@
 let slide = document.getElementById("slide");
 
 const viewer = document.getElementById("viewer");
-const fadeMask = document.getElementById("fadeMask");
 
 let files = [];
 let index = 0;
 
 // フォルダ選択
 folderInput.addEventListener("change", (e) => {
-  files = [...e.target.files];
+  files = [...e.target.files].filter(f => f.type.startsWith("image/"));
   console.log("読み込んだファイル数:", files.length);
 });
 
 // 再生開始
 startBtn.addEventListener("click", () => {
   if (files.length === 0) {
-    alert("ファイルがありません");
+    alert("画像ファイルがありません");
     return;
   }
 
