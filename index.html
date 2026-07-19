@@ -68,6 +68,18 @@
     <button id="startBtn">再生開始</button>
 
     <div id="help">スワイプで次へ進みます</div>
+
+    <!-- 説明文 -->
+    <div id="info" style="
+      margin-top: 3rem;
+      font-size: 1.2rem;
+      color: #666;
+      line-height: 1.8;
+    ">
+      🐤選択したフォルダの画像がすてきなスライドショーになるよ。<br>
+      🐤フォルダの画像を表示するだけです。アプリ終了するとデータは残りません。外部に通信はしません。<br>
+      🐤15秒で変わります。長い動画は一時停止してみてね。
+    </div>
   </div>
 
   <div id="viewer">
@@ -84,8 +96,19 @@
     background: black;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.2s;
+    transition: opacity 0.8s;
   "></div>
+
+  <!-- 動画の音声アイコン（控えめ） -->
+  <div id="videoSound" style="
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    font-size: 1.6rem;
+    color: #aaa;
+    display: none;
+    z-index: 9999;
+  ">🔊</div>
 
   <!-- 操作バー -->
   <div id="controls" style="
@@ -94,14 +117,13 @@
     width: 100%;
     text-align: center;
     font-size: 2rem;
-    color: white;
-    background: rgba(0,0,0,0.5);
+    color: #ccc;
+    background: rgba(0,0,0,0.3);
     z-index: 9999;
   ">
-    <span id="prev">⇦</span>
-    <span id="pause">⏸</span>
-    <span id="nextBtn">⇨</span>
-    <span id="restart">↺もどる</span>
+    <span id="prev" style="margin: 0 1.5rem;">⇦</span>
+    <span id="pause" style="margin: 0 1.5rem;">⏸</span>
+    <span id="nextBtn" style="margin: 0 1.5rem;">⇨</span>
   </div>
 
   <script src="app.js"></script>
