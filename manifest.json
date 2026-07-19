@@ -1,7 +1,7 @@
 {
-  "name": "ゆったりアルバム",
-  "short_name": "アルバム",
-  "start_url": "index.html",
+  "name": "みる",
+  "short_name": "みる",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#000000",
